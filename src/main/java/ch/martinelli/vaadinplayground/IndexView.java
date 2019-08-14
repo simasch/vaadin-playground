@@ -47,7 +47,6 @@ public class IndexView extends VerticalLayout {
         treeGrid.getElement().addEventListener("keyup", event -> editor.cancel())
                 .setFilter("event.key === 'Escape' || event.key === 'Esc'");
 
-
         Employee direct = new Employee("Peter", LocalDate.of(2000, 12, 11));
         Employee root = new Employee("Simon", LocalDate.of(1980, 1, 1), direct);
 
