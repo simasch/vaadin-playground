@@ -53,7 +53,7 @@ public class MainView extends VerticalLayout {
             @Override
             public int getChildCount(HierarchicalQuery<Employee, Void> hierarchicalQuery) {
                 if (hierarchicalQuery.getParent() == null) {
-                    return boss.getDirects().size();
+                    return 1;
                 } else {
                     return hierarchicalQuery.getParent().getDirects().size();
                 }
@@ -79,9 +79,15 @@ public class MainView extends VerticalLayout {
 
     private Employee createEmployees() {
         Employee boss = new Employee("Simon", LocalDate.of(1980, 1, 1));
-        Employee direct = new Employee("Peter", LocalDate.of(2000, 12, 11));
-        boss.getDirects().add(direct);
-        direct.setBoss(boss);
+
+        Employee direct1 = new Employee("Peter", LocalDate.of(2000, 12, 11));
+        boss.getDirects().add(direct1);
+        direct1.setBoss(boss);
+
+        Employee direct2 = new Employee("Karin", LocalDate.of(2010, 2, 9));
+        boss.getDirects().add(direct2);
+        direct2.setBoss(boss);
+
         return boss;
     }
 
