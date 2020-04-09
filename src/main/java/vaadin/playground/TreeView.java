@@ -1,10 +1,9 @@
 package vaadin.playground;
 
-import com.vaadin.flow.component.datepicker.DatePicker;
+import com.devskiller.jfairy.Fairy;
+import com.devskiller.jfairy.producer.person.Person;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.editor.Editor;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.treegrid.TreeGrid;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.provider.hierarchy.AbstractBackEndHierarchicalDataProvider;
@@ -16,36 +15,17 @@ import java.time.LocalDate;
 import java.util.stream.Stream;
 
 @Route
-public class MainView extends VerticalLayout {
+public class TreeView extends VerticalLayout {
 
-    public MainView() {
+    Fairy fairy = Fairy.create();
+
+    public TreeView() {
         TreeGrid<Employee> treeGrid = new TreeGrid<>();
 
         Grid.Column<Employee> nameColumn = treeGrid.addHierarchyColumn((ValueProvider<Employee, String>) employee -> employee.getName())
                 .setHeader("Name");
         Grid.Column<Employee> birthdayColumn = treeGrid.addColumn((ValueProvider<Employee, LocalDate>) employee -> employee.getBirthday())
                 .setHeader("Birthday");
-
-        Binder<Employee> binder = new Binder<>(Employee.class);
-        Editor<Employee> editor = treeGrid.getEditor();
-        editor.setBinder(binder);
-        editor.setBuffered(true);
-
-        TextField field = new TextField();
-        binder.bind(field, "name");
-        nameColumn.setEditorComponent(field);
-
-        DatePicker datePicker = new DatePicker();
-        binder.bind(datePicker, "birthday");
-        birthdayColumn.setEditorComponent(datePicker);
-
-        treeGrid.addItemClickListener(event -> {
-            editor.save();
-            editor.editItem(event.getItem());
-        });
-
-        treeGrid.getElement().addEventListener("keyup", event -> editor.cancel())
-                .setFilter("event.key === 'Escape' || event.key === 'Esc'");
 
         Employee boss = createEmployees();
 
@@ -78,11 +58,21 @@ public class MainView extends VerticalLayout {
     }
 
     private Employee createEmployees() {
-        Employee boss = new Employee("Simon", LocalDate.of(1980, 1, 1));
-        Employee direct = new Employee("Peter", LocalDate.of(2000, 12, 11));
-        boss.getDirects().add(direct);
-        direct.setBoss(boss);
+        Employee boss = new Employee("Boss", LocalDate.of(1980, 1, 1));
+        generateEmployees(boss, 10);
+        for (Employee direct : boss.getDirects()) {
+            generateEmployees(direct, 10);
+        }
         return boss;
+    }
+
+    private void generateEmployees(Employee boss, int numberToGenerate) {
+        for (int i = 0; i < numberToGenerate; i++) {
+            Person person = fairy.person();
+            Employee employee = new Employee(person.getFullName(), person.getDateOfBirth());
+            boss.getDirects().add(employee);
+            employee.setBoss(boss);
+        }
     }
 
 }

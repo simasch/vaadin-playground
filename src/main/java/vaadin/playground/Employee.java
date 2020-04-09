@@ -11,13 +11,9 @@ public class Employee {
     private Employee boss;
     private List<Employee> directs = new ArrayList<>();
 
-    public Employee(String name, LocalDate birthday, Employee... directs) {
+    public Employee(String name, LocalDate birthday) {
         this.name = name;
         this.birthday = birthday;
-        for (Employee direct : directs) {
-            direct.boss = this;
-            this.directs.add(direct);
-        }
     }
 
     public String getName() {
