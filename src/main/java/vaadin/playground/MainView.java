@@ -1,4 +1,4 @@
-package ch.martinelli.vaadinplayground;
+package vaadin.playground;
 
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
@@ -15,10 +15,10 @@ import com.vaadin.flow.router.Route;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
-@Route(value = "index")
-public class IndexView extends VerticalLayout {
+@Route
+public class MainView extends VerticalLayout {
 
-    public IndexView() {
+    public MainView() {
         TreeGrid<Employee> treeGrid = new TreeGrid<>();
 
         Grid.Column<Employee> nameColumn = treeGrid.addHierarchyColumn((ValueProvider<Employee, String>) employee -> employee.getName())

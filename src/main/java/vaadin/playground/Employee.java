@@ -1,4 +1,4 @@
-package ch.martinelli.vaadinplayground;
+package vaadin.playground;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
