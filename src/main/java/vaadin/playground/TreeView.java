@@ -22,10 +22,8 @@ public class TreeView extends VerticalLayout {
     public TreeView() {
         TreeGrid<Employee> treeGrid = new TreeGrid<>();
 
-        Grid.Column<Employee> nameColumn = treeGrid.addHierarchyColumn((ValueProvider<Employee, String>) employee -> employee.getName())
-                .setHeader("Name");
-        Grid.Column<Employee> birthdayColumn = treeGrid.addColumn((ValueProvider<Employee, LocalDate>) employee -> employee.getBirthday())
-                .setHeader("Birthday");
+        treeGrid.addHierarchyColumn((ValueProvider<Employee, String>) employee -> employee.getName()).setHeader("Name");
+        treeGrid.addColumn((ValueProvider<Employee, LocalDate>) employee -> employee.getBirthday()).setHeader("Birthday");
 
         Employee boss = createEmployees();
 
