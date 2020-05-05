@@ -11,6 +11,7 @@ import com.vaadin.flow.data.provider.hierarchy.AbstractBackEndHierarchicalDataPr
 import com.vaadin.flow.data.provider.hierarchy.HierarchicalQuery;
 import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLink;
 
 import java.time.LocalDate;
 import java.util.stream.Stream;
@@ -75,6 +76,8 @@ public class MainView extends VerticalLayout {
         });
 
         add(treeGrid);
+
+        add(new RouterLink("Tree", TreeView.class));
     }
 
     private Employee createEmployees() {

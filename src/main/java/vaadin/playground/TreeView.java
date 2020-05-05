@@ -62,6 +62,14 @@ public class TreeView extends VerticalLayout {
         });
 
         add(expand);
+
+        Button exceptionButton = new Button("Throw RuntimeException");
+        exceptionButton.addClickListener(event -> {
+            throw new RuntimeException();
+        });
+        add(exceptionButton);
+
+        throw new RuntimeException();
     }
 
     private Employee createEmployees() {
