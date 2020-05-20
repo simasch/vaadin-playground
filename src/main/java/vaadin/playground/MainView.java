@@ -32,6 +32,11 @@ public class MainView extends VerticalLayout {
         editor.setBinder(binder);
         editor.setBuffered(true);
 
+        editor.addSaveListener(e -> {
+            editor.cancel();
+            treeGrid.getDataProvider().refreshAll();
+        });
+
         TextField field = new TextField();
         binder.bind(field, "name");
         nameColumn.setEditorComponent(field);

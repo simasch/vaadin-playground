@@ -64,6 +64,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.vaadin.componentfactory</groupId>
+            <artifactId>tooltip</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.devskiller</groupId>
             <artifactId>jfairy</artifactId>
             <version>0.6.3</version>
