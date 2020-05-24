@@ -22,9 +22,9 @@ public class MainView extends VerticalLayout {
     public MainView() {
         TreeGrid<Employee> treeGrid = new TreeGrid<>();
 
-        Grid.Column<Employee> nameColumn = treeGrid.addHierarchyColumn((ValueProvider<Employee, String>) employee -> employee.getName())
+        Grid.Column<Employee> nameColumn = treeGrid.addHierarchyColumn((ValueProvider<Employee, String>) Employee::getName)
                 .setHeader("Name");
-        Grid.Column<Employee> birthdayColumn = treeGrid.addColumn((ValueProvider<Employee, LocalDate>) employee -> employee.getBirthday())
+        Grid.Column<Employee> birthdayColumn = treeGrid.addColumn((ValueProvider<Employee, LocalDate>) Employee::getBirthday)
                 .setHeader("Birthday");
 
         Binder<Employee> binder = new Binder<>(Employee.class);
@@ -86,13 +86,13 @@ public class MainView extends VerticalLayout {
     }
 
     private Employee createEmployees() {
-        Employee boss = new Employee("Simon", LocalDate.of(1980, 1, 1));
+        Employee boss = new Employee(1, "Simon", LocalDate.of(1980, 1, 1));
 
-        Employee direct1 = new Employee("Peter", LocalDate.of(2000, 12, 11));
+        Employee direct1 = new Employee(2, "Peter", LocalDate.of(2000, 12, 11));
         boss.getDirects().add(direct1);
         direct1.setBoss(boss);
 
-        Employee direct2 = new Employee("Karin", LocalDate.of(2010, 2, 9));
+        Employee direct2 = new Employee(3, "Karin", LocalDate.of(2010, 2, 9));
         boss.getDirects().add(direct2);
         direct2.setBoss(boss);
 

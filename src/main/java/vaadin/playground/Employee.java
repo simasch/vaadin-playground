@@ -6,14 +6,24 @@ import java.util.List;
 
 public class Employee {
 
+    private Integer id;
     private String name;
     private LocalDate birthday;
     private Employee boss;
     private List<Employee> directs = new ArrayList<>();
 
-    public Employee(String name, LocalDate birthday) {
+    public Employee(Integer id, String name, LocalDate birthday) {
+        this.id = id;
         this.name = name;
         this.birthday = birthday;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

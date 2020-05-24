@@ -17,8 +17,6 @@ import java.util.stream.Stream;
 @Route
 public class TreeView extends VerticalLayout {
 
-    Fairy fairy = Fairy.create();
-
     public TreeView() {
         TreeGrid<Employee> treeGrid = new TreeGrid<>();
 
@@ -73,7 +71,7 @@ public class TreeView extends VerticalLayout {
     }
 
     private Employee createEmployees() {
-        Employee boss = new Employee("Boss", LocalDate.of(1980, 1, 1));
+        Employee boss = new Employee(1, "Boss", LocalDate.of(1980, 1, 1));
         generateEmployees(boss, 2000);
         for (Employee direct : boss.getDirects()) {
             generateEmployees(direct, 20);
@@ -82,9 +80,11 @@ public class TreeView extends VerticalLayout {
     }
 
     private void generateEmployees(Employee boss, int numberToGenerate) {
+        Fairy fairy = Fairy.create();
+
         for (int i = 0; i < numberToGenerate; i++) {
             Person person = fairy.person();
-            Employee employee = new Employee(person.getFullName(), person.getDateOfBirth());
+            Employee employee = new Employee(i, person.getFullName(), person.getDateOfBirth());
             boss.getDirects().add(employee);
             employee.setBoss(boss);
         }
