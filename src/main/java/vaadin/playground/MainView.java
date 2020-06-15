@@ -82,17 +82,17 @@ public class MainView extends VerticalLayout {
 
         add(treeGrid);
 
-        add(new RouterLink("Tree", TreeView.class));
+        add(new RouterLink("Tree", TreeGridView.class));
     }
 
     private Employee createEmployees() {
-        Employee boss = new Employee(1, "Simon", LocalDate.of(1980, 1, 1));
+        Employee boss = new Employee("Simon", LocalDate.of(1980, 1, 1));
 
-        Employee direct1 = new Employee(2, "Peter", LocalDate.of(2000, 12, 11));
+        Employee direct1 = new Employee("Peter", LocalDate.of(2000, 12, 11));
         boss.getDirects().add(direct1);
         direct1.setBoss(boss);
 
-        Employee direct2 = new Employee(3, "Karin", LocalDate.of(2010, 2, 9));
+        Employee direct2 = new Employee("Lisa", LocalDate.of(2010, 2, 9));
         boss.getDirects().add(direct2);
         direct2.setBoss(boss);
 

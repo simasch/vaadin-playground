@@ -11,16 +11,17 @@ import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.router.Route;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Route
-public class TreeView extends VerticalLayout {
+public class TreeGridView extends VerticalLayout {
 
-    public TreeView() {
+    public TreeGridView() {
         TreeGrid<Employee> treeGrid = new TreeGrid<>();
 
-        treeGrid.addHierarchyColumn((ValueProvider<Employee, String>) employee -> employee.getName()).setHeader("Name");
-        treeGrid.addColumn((ValueProvider<Employee, LocalDate>) employee -> employee.getBirthday()).setHeader("Birthday");
+        treeGrid.addHierarchyColumn((ValueProvider<Employee, String>) Employee::getName).setHeader("Name");
+        treeGrid.addColumn((ValueProvider<Employee, LocalDate>) Employee::getBirthday).setHeader("Birthday");
 
         Employee boss = createEmployees();
 
@@ -53,27 +54,47 @@ public class TreeView extends VerticalLayout {
 
         Button expand = new Button("Expand");
         expand.addClickListener(buttonClickEvent -> {
-            treeGrid.expand(boss, boss.getDirects().get(100), boss.getDirects().get(100).getDirects().get(10));
-            treeGrid.scrollToIndex(110);
-            treeGrid.select(boss.getDirects().get(100).getDirects().get(10));
+            treeGrid.expand(boss, boss.getDirects().get(10), boss.getDirects().get(3).getDirects().get(3));
+            treeGrid.scrollToIndex(30);
+            treeGrid.select(boss.getDirects().get(3).getDirects().get(3));
         });
 
         add(expand);
 
-        Button exceptionButton = new Button("Throw RuntimeException");
-        exceptionButton.addClickListener(event -> {
-            throw new RuntimeException();
+        Button delete = new Button("Delete");
+        delete.addClickListener(buttonClickEvent -> {
+            treeGrid.getSelectedItems().stream().findFirst().ifPresent(employee -> {
+                deleteEmployee(boss.getDirects(), employee);
+                treeGrid.getDataProvider().refreshItem(employee.getBoss(), true);
+            });
         });
-        add(exceptionButton);
 
-        throw new RuntimeException();
+        add(delete);
+
+        Button refresh = new Button("Refresh");
+        refresh.addClickListener(buttonClickEvent -> {
+            treeGrid.getDataProvider().refreshAll();
+        });
+
+        add(refresh);
+    }
+
+    private void deleteEmployee(List<Employee> directs, Employee employee) {
+        for (Employee direct : directs) {
+            if (direct.equals(employee)) {
+                direct.getBoss().getDirects().remove(employee);
+                return;
+            } else {
+                deleteEmployee(direct.getDirects(), employee);
+            }
+        }
     }
 
     private Employee createEmployees() {
-        Employee boss = new Employee(1, "Boss", LocalDate.of(1980, 1, 1));
-        generateEmployees(boss, 2000);
+        Employee boss = new Employee("Boss", LocalDate.of(1980, 1, 1));
+        generateEmployees(boss, 200);
         for (Employee direct : boss.getDirects()) {
-            generateEmployees(direct, 20);
+            generateEmployees(direct, 5);
         }
         return boss;
     }
@@ -83,7 +104,7 @@ public class TreeView extends VerticalLayout {
 
         for (int i = 0; i < numberToGenerate; i++) {
             Person person = fairy.person();
-            Employee employee = new Employee(i, person.getFullName(), person.getDateOfBirth());
+            Employee employee = new Employee(person.getFullName(), person.getDateOfBirth());
             boss.getDirects().add(employee);
             employee.setBoss(boss);
         }

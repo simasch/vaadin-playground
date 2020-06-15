@@ -1,15 +1,23 @@
 package vaadin.playground;
 
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.listbox.MultiSelectListBox;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.Route;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Route
 public class SelectView extends Div {
 
     public SelectView() {
+        FormLayout formLayout = new FormLayout();
+        formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("1px", 1));
+        add(formLayout);
+
         Select<String> select = new Select<>();
         select.setItems("Alpha", "Beta", "Gamma");
 
@@ -17,15 +25,27 @@ public class SelectView extends Div {
             System.out.println(event.getValue());
         });
 
-        add(select);
+        formLayout.addFormItem(select, "select");
 
         MultiselectComboBox<String> multiselectComboBox = new MultiselectComboBox<>();
         multiselectComboBox.setLabel("Select items");
-        multiselectComboBox.setItems("Item 1", "Item 2", "Item 3", "Item 4");
-        add(multiselectComboBox);
+        multiselectComboBox.setItems(createItems());
+
+        formLayout.addFormItem(multiselectComboBox, "multiselectComboBox");
+
 
         MultiSelectListBox<String> multiSelectListBox = new MultiSelectListBox<>();
-        multiSelectListBox.setItems("Item 1", "Item 2", "Item 3", "Item 4");
-        add(multiSelectListBox);
+        multiSelectListBox.setItems(createItems());
+        multiselectComboBox.setHeight("300px");
+
+        formLayout.addFormItem(multiSelectListBox, "multiSelectListBox");
+    }
+
+    private List<String> createItems() {
+        List<String> items = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            items.add("Item " + i);
+        }
+        return items;
     }
 }
