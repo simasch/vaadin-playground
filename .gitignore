@@ -30,3 +30,7 @@ HELP.md
 /node_modules/
 /tsconfig.json
 /types.d.ts
+/package.json
+/package-lock.json
+/webpack.config.js
+/webpack.generated.js
